@@ -8,6 +8,12 @@
         <span class="section__tag">#fazefallen</span>
       </div>
       <div class="section__cards">
+        <template v-if="loadingPosts">
+          <div class="sk-card" v-for="i in 3" :key="i">
+            <div class="card__content">
+            </div>
+          </div>
+        </template>
         <router-link :to="{name: 'Post', params: {id: card.id}}" class="card" v-for="card in posts" :key="card.id" v-bind:style="`background-image: url('https://strapi-hltv.herokuapp.com${card.image.formats.thumbnail.url}`">
           <div class="card__content">
             <span class="card__hour">{{formatDate(card.published_at)}}</span>
@@ -30,6 +36,7 @@ export default {
   name: "News",
   data: function () {
     return {
+      loadingPosts: true
     };
   },
   computed: {
@@ -44,6 +51,13 @@ export default {
       return moment.utc(data).fromNow();
     }
   },
+  watch: {
+    posts: function() {
+      if (this.posts.length > 0) {
+        this.loadingPosts = false;
+      }
+    }
+  }
 };
 </script>
 
@@ -100,6 +114,22 @@ export default {
     .card__subtitle {
       @apply text-white text-sm;
     }
+  }
+}
+.sk-card {
+  @apply mx-1 rounded-md;
+  min-width: 12rem;
+  max-width: 12rem;
+  min-height: 12rem;
+  max-height: 12rem;
+  &:first-child {
+    @apply ml-0;
+  }
+  &:last-child {
+    @apply mr-0;
+  }
+  .card__content {
+    @apply h-full bg-gray-300 animate-pulse rounded-md;
   }
 }
 </style>
