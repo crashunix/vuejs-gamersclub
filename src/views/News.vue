@@ -8,7 +8,7 @@
         <span class="section__tag">#fazefallen</span>
       </div>
       <div class="section__cards">
-        <template v-if="loadingPosts">
+        <template v-if="loading(posts)">
           <div class="sk-card" v-for="i in 3" :key="i">
             <div class="card__content">
             </div>
@@ -35,29 +35,26 @@ import { mapGetters } from 'vuex';
 export default {
   name: "News",
   data: function () {
-    return {
-      loadingPosts: true
-    };
+    return {};
   },
   computed: {
     ...mapGetters(['getPosts']),
     posts() {
       return this.getPosts;
-    }
+    },
   },
   methods: {
     formatDate(data) {
       moment.locale('pt-br');
       return moment.utc(data).fromNow();
+    },
+    loading(a) {
+      if (a.length > 0) {
+        return false;
+      }
+      return true;
     }
   },
-  watch: {
-    posts: function() {
-      if (this.posts.length > 0) {
-        this.loadingPosts = false;
-      }
-    }
-  }
 };
 </script>
 
