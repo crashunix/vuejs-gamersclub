@@ -49,9 +49,9 @@
     </div>
     <h2 class="header__title">Explorar</h2>
     <nav class="header__nav">
-      <router-link to="/news">News</router-link>
-      <router-link to="/matches">Matches</router-link>
-      <router-link to="/ranking">Ranking</router-link>
+      <router-link :to="{name: 'News'}">News</router-link>
+      <router-link :to="{name: 'Matches'}">Matches</router-link>
+      <router-link :to="{name: 'Ranking'}">Ranking</router-link>
       <div class="nav__active" v-bind:class="currentRouteName"></div>
     </nav>
   </div>

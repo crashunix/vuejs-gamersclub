@@ -12,7 +12,7 @@ const routes = [
     component: FeedLayout,
     children: [
       {
-        path: '/news',
+        path: '/',
         name: 'News',
         component: News
       },
