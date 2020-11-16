@@ -27,16 +27,19 @@ export default createStore({
     getPost: state => state.post,
   },
   actions: {
-    getPosts: ({commit}) => {
+    getPosts: ({ commit }) => {
       Post.all().then(response => {
         commit('SET_POSTS', response.data)
       });
     },
-    getPost: ({commit}, postId) => {
+    getPost: ({ commit }, postId) => {
       Post.show(postId).then(response => {
         commit('SET_POST', response.data);
       });
-    }
+    },
+    clearPost: ({ commit }) => {
+      commit('SET_POST', {});
+    },
   },
   modules: {
   }

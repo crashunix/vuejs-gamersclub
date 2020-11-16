@@ -49,7 +49,7 @@
     </div>
     <h2 class="header__title">Explorar</h2>
     <nav class="header__nav">
-      <router-link to="/">News</router-link>
+      <router-link to="/news">News</router-link>
       <router-link to="/matches">Matches</router-link>
       <router-link to="/ranking">Ranking</router-link>
       <div class="nav__active" v-bind:class="currentRouteName"></div>
@@ -61,7 +61,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Header",
+  name: "FeedHeader",
   data: function () {
     return {
       themeMenu: false,

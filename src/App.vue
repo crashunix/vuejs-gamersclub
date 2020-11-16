@@ -1,40 +1,31 @@
 <template>
   <div v-bind:class="theme" class="content">
-    <Header />
-    <div class="px-6 py-5">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-
 import { mapGetters } from "vuex";
-
-import Header from "@/components/base/Header.vue";
 
 export default {
   name: "App",
   data: function () {
-    return {}
+    return {};
   },
   computed: {
-    ...mapGetters(["theme"])
+    ...mapGetters(["theme"]),
   },
   mounted() {
-    this.$store.dispatch('getPosts');
-  },
-  components: {
-    Header,
+    this.$store.dispatch("getPosts");
   },
 };
 </script>
 
 <style lang="scss">
-  .content {
-    @apply bg-white;
-    &.dark-theme {
-      @apply bg-gray-900;
-    }
+.content {
+  @apply bg-white;
+  &.dark-theme {
+    @apply bg-gray-900;
   }
+}
 </style>
