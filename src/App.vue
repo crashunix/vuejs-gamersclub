@@ -1,7 +1,7 @@
 <template>
   <div v-bind:class="theme" class="content">
     <Header />
-    <div class="px-6">
+    <div class="px-6 py-5">
       <router-view />
     </div>
   </div>

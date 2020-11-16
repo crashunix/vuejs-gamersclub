@@ -8,13 +8,13 @@
         <span class="section__tag">#fazefallen</span>
       </div>
       <div class="section__cards">
-        <div class="card" v-for="card in posts" :key="card.id" v-bind:style="'background-image: url(\'http://localhost:1337' + card.image.formats.thumbnail.url + '\')'">
+        <router-link :to="{name: 'Post', params: {id: card.id}}" class="card" v-for="card in posts" :key="card.id" v-bind:style="`background-image: url('https://strapi-hltv.herokuapp.com${card.image.formats.thumbnail.url}`">
           <div class="card__content">
             <span class="card__hour">{{formatDate(card.published_at)}}</span>
             <span class="card__title">{{ card.title }}</span>
             <span class="card__subtitle">{{ card.subtitle }}</span>
           </div>
-        </div>
+        </router-link>
       </div>
     </section>
   </div>
@@ -49,7 +49,6 @@ export default {
 
 <style lang="scss">
 .section {
-  @apply py-5;
   .section__title {
   }
   .section__tags {

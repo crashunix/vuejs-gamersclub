@@ -5,6 +5,6 @@ export default {
         return Api.get('posts');
     },
     show(id) {
-        return Api.get(`posts${id}`);
+        return Api.get(`posts/${id}`);
     }
 }
