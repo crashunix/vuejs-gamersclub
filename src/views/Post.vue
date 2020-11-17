@@ -29,14 +29,16 @@ export default {
       return this.getPost;
     },
     postImage() {
-      const base = "https://strapi-hltv.herokuapp.com";
       var url = "/";
       if (this.post.image) {
         console.log("Sim", this.post.image);
-        url = base + this.post.image.url;
+        url = this.ROOT_API + this.post.image.url;
       }
       return url;
     },
+    ROOT_API() {
+      return process.env.VUE_APP_ROOT_API;
+    }
   },
   methods: {
     formatDate(data) {

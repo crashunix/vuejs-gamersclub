@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const Api = axios.create({
-    baseURL: 'https://strapi-hltv.herokuapp.com/'
+    baseURL: process.env.VUE_APP_ROOT_API
 });
 
 export default Api;

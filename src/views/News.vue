@@ -2,6 +2,7 @@
   <div class="news">
     <section class="section">
       <h3 class="section__title">Em alta</h3>
+      {{token}}
       <div class="section__tags">
         <span class="section__tag">#mibr</span>
         <span class="section__tag">#astralisruimkkk</span>
@@ -18,12 +19,39 @@
           class="card"
           v-for="card in posts"
           :key="card.id"
-          v-bind:style="`background-image: url('https://strapi-hltv.herokuapp.com${card.image.formats.thumbnail.url}`"
+          v-bind:style="`background-image: url('${
+            ROOT_API + card.image.formats.thumbnail.url
+          }`"
         >
           <div class="card__content">
             <span class="card__hour">{{ formatDate(card.published_at) }}</span>
             <span class="card__title">{{ card.title }}</span>
             <span class="card__subtitle">{{ card.subtitle }}</span>
+          </div>
+        </router-link>
+      </div>
+    </section>
+    <section v-for="category in categories" :key="category.id" class="section">
+      <h3 class="section__title">{{category.name}}</h3>
+      <div class="section__cards">
+        <template v-if="loading(category.posts)">
+          <div class="sk-card" v-for="i in 3" :key="i">
+            <div class="card__content"></div>
+          </div>
+        </template>
+        <router-link
+          :to="{ name: 'Post', params: { id: post.id } }"
+          class="card"
+          v-for="post in category.posts"
+          :key="post.id"
+          v-bind:style="`background-image: url('${
+            ROOT_API + post.image.formats.thumbnail.url
+          }`"
+        >
+          <div class="card__content">
+            <span class="card__hour">{{ formatDate(post.published_at) }}</span>
+            <span class="card__title">{{ post.title }}</span>
+            <span class="card__subtitle">{{ post.subtitle }}</span>
           </div>
         </router-link>
       </div>
@@ -42,9 +70,18 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["getPosts"]),
+    ...mapGetters(["getRecentPosts", "getCategories", "getToken"]),
     posts() {
-      return this.getPosts;
+      return this.getRecentPosts;
+    },
+    categories() {
+      return this.getCategories;
+    },
+    token() {
+      return this.getToken;
+    },
+    ROOT_API() {
+      return process.env.VUE_APP_ROOT_API;
     },
   },
   methods: {
@@ -64,16 +101,17 @@ export default {
 
 <style lang="scss">
 .section {
+  @apply mb-6;
   .section__title {
   }
   .section__tags {
-    @apply flex items-center mb-4 mt-1;
+    @apply flex items-center;
     .section__tag {
       @apply text-xs text-gray-500 mr-2;
     }
   }
   .section__cards {
-    @apply flex overflow-x-auto flex-no-wrap;
+    @apply flex overflow-x-auto flex-no-wrap mt-4;
     -webkit-overflow-scrolling: touch; /* [3] */
     -ms-overflow-style: -ms-autohiding-scrollbar; /* [4] */
     &::-webkit-scrollbar {

@@ -5,8 +5,14 @@ import News from '../views/News.vue'
 import Matches from '../views/Matches.vue'
 import Ranking from '../views/Ranking.vue'
 import Post from '../views/Post.vue'
+import Login from '../views/Login.vue'
 
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
   {
     path: '/',
     component: FeedLayout,

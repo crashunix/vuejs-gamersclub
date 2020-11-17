@@ -16,7 +16,8 @@ export default {
     ...mapGetters(["theme"]),
   },
   mounted() {
-    this.$store.dispatch("getPosts");
+    this.$store.dispatch("getRecentPosts");
+    this.$store.dispatch("getCategories");
   },
 };
 </script>
