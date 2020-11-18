@@ -2,7 +2,6 @@
   <div class="news">
     <section class="section">
       <h3 class="section__title">Em alta</h3>
-      {{ token }}
       <div class="section__tags">
         <span class="section__tag">#mibr</span>
         <span class="section__tag">#astralisruimkkk</span>
@@ -70,26 +69,25 @@ import { mapGetters } from "vuex";
 export default {
   name: "News",
   data: function () {
-    return {};
+    return {
+      valor: 120
+    };
   },
   computed: {
-    ...mapGetters(["getRecentPosts", "getCategories", "getToken"]),
+    ...mapGetters(["getRecentPosts", "getCategories"]),
     posts() {
       return this.getRecentPosts;
     },
     categories() {
       return this.getCategories;
     },
-    token() {
-      return this.getToken;
-    },
     ROOT_API() {
       return process.env.VUE_APP_ROOT_API;
-    },
+    }
   },
   methods: {
     formatDate(data) {
-      moment.locale("pt-br");
+      //moment.locale("pt-br");
       return moment.utc(data).fromNow();
     },
     loading(a) {

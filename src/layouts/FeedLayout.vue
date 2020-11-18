@@ -1,6 +1,6 @@
 <template>
   <div class="feed-layout">
-    <FeedHeader />
+    <Header />
     <div class="px-6 py-5">
       <router-view />
     </div>
@@ -9,15 +9,15 @@
 
 <script>
 
-import FeedHeader from '../components/base/FeedHeader';
+import Header from '../components/base/Header';
 
 export default {
-  name: "FeedLayout",
+  name: "Layout",
   data: function () {
     return {};
   },
   components: {
-    FeedHeader,
+    Header,
   },
 };
 </script>

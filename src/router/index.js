@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import FeedLayout from '../layouts/FeedLayout.vue'
-import PostLayout from '../layouts/PostLayout.vue'
+import DetailLayout from '../layouts/DetailLayout.vue'
 import News from '../views/News.vue'
 import Matches from '../views/Matches.vue'
 import Ranking from '../views/Ranking.vue'
@@ -37,7 +37,7 @@ const routes = [
   },
   {
     path: '/',
-    component: PostLayout,
+    component: DetailLayout,
     children: [
       {
         path: ':id',

@@ -11,6 +11,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex';
+
 export default {
   name: "Post",
   data: function () {
@@ -19,9 +21,22 @@ export default {
       password: ''
     };
   },
+  computed: {
+    ...mapGetters(["getLoggedIn"]),
+    loggedIn() {
+      return this.getLoggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push('/matches');
+    }
+  },
   methods: {
     login() {
-      this.$store.dispatch("makeLogin", {identifier: this.identifier, password: this.password});
+      this.$store.dispatch("login", {identifier: this.identifier, password: this.password}).then(() => {
+        this.$router.push('/matches');
+      });
     }
   }
 };

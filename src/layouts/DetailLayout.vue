@@ -1,6 +1,6 @@
 <template>
   <div class="post-layout">
-    <PostHeader />
+    <Header type="detail" />
     <div class="px-6 pb-5">
       <router-view />
     </div>
@@ -9,15 +9,15 @@
 
 <script>
 
-import PostHeader from '../components/base/PostHeader';
+import Header from '../components/base/Header';
 
 export default {
-  name: "PostLayout",
+  name: "DetailLayout",
   data: function () {
     return {};
   },
   components: {
-    PostHeader,
+    Header,
   },
 };
 </script>

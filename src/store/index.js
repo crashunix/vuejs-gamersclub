@@ -2,7 +2,11 @@ import { createStore } from "vuex";
 
 import Post from "../apis/Post";
 import Category from "../apis/Category";
-import User from "../apis/User";
+
+import Auth from "../apis/auth/auth";
+import User from "../apis/auth/user";
+
+const userStorage = JSON.parse(localStorage.getItem('user'));
 
 export default createStore({
   state: {
@@ -11,7 +15,8 @@ export default createStore({
     post: {},
     categories: [],
     category: {},
-    me: {}
+    loggedIn: userStorage ? true : false,
+    me: null
   },
   mutations: {
     setTheme: (state, theme) => {
@@ -29,8 +34,23 @@ export default createStore({
     SET_CATEGORY: (state, category) => {
       state.category = category;
     },
-    SET_USER: (state, user) => {
-      state.me = user
+    loginSuccess(state) {
+      state.loggedIn = true;
+    },
+    loginFailure(state) {
+      state.loggedIn = false;
+    },
+    logout(state) {
+      state.loggedIn = false;
+    },
+    registerSuccess(state) {
+      state.loggedIn = false;
+    },
+    registerFailure(state) {
+      state.loggedIn = false;
+    },
+    SET_ME: (state, user) => {
+      state.me = user;
     }
   },
   getters: {
@@ -41,7 +61,8 @@ export default createStore({
     getPost: (state) => state.post,
     getCategories: (state) => state.categories,
     getCategory: (state) => state.category,
-    getToken: (state) => state.me.jwt,
+    getLoggedIn: (state) => state.loggedIn,
+    getMe: (state) => state.me
   },
   actions: {
     getRecentPosts: ({ commit }) => {
@@ -70,12 +91,37 @@ export default createStore({
         commit("SET_CATEGORY", response.data);
       });
     },
-    makeLogin: ({ commit }, credentials) => {
-      User.login(credentials).then((response) => {
-        console.log('FEZ LOGIN', response.data);
-        commit("SET_USER", response.data);
-      }).catch(err => {
-        console.log('ERRO', err);
+    login({ commit }, user) {
+      return Auth.login(user).then(
+        user => {
+          commit('loginSuccess', user);
+          return Promise.resolve(user);
+        },
+        error => {
+          commit('loginFailure');
+          return Promise.reject(error);
+        }
+      );
+    },
+    logout({ commit }) {
+      Auth.logout();
+      commit('logout');
+    },
+    register({ commit }, user) {
+      return Auth.register(user).then(
+        response => {
+          commit('registerSuccess');
+          return Promise.resolve(response.data);
+        },
+        error => {
+          commit('registerFailure');
+          return Promise.reject(error);
+        }
+      );
+    },
+    getMe({commit}) {
+      return User.getMe().then(response => {
+        commit('SET_ME', response.data);
       });
     }
   },
