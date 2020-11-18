@@ -1,43 +1,14 @@
 <template>
-  <div class="news">
+  <div class="category">
     <section class="section">
-      <h3 class="section__title">Em alta</h3>
-      {{ token }}
-      <div class="section__tags">
-        <span class="section__tag">#mibr</span>
-        <span class="section__tag">#astralisruimkkk</span>
-        <span class="section__tag">#fazefallen</span>
-      </div>
-      <div class="section__cards">
-        <template v-if="loading(posts)">
-          <div class="sk-card" v-for="i in 3" :key="i">
-            <div class="card__content"></div>
-          </div>
-        </template>
-        <router-link
-          :to="{ name: 'Post', params: { id: card.id } }"
-          class="card"
-          v-for="card in posts"
-          :key="card.id"
-          v-bind:style="`background-image: url('${
-            ROOT_API + card.image.formats.thumbnail.url
-          }`"
-        >
-          <div class="card__content">
-            <span class="card__hour">{{ formatDate(card.published_at) }}</span>
-            <span class="card__title">{{ card.title }}</span>
-            <span class="card__subtitle">{{ card.subtitle }}</span>
-          </div>
-        </router-link>
-      </div>
-    </section>
-    <section v-for="category in categories" :key="category.id" class="section">
       <div class="flex justify-between">
         <h3 class="section__title">{{ category.name }}</h3>
-        <router-link :to="{name: 'Category', params: { id: category.id }}">More</router-link>
+        <router-link
+          :to="{ name: 'Category', params: { id: category.id } }"
+        ></router-link>
       </div>
       <div class="section__cards">
-        <template v-if="loading(category.posts)">
+        <template>
           <div class="sk-card" v-for="i in 3" :key="i">
             <div class="card__content"></div>
           </div>
@@ -68,20 +39,20 @@ import moment from "moment";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "News",
+  name: "Category",
   data: function () {
     return {};
   },
+  mounted() {
+    this.$store.dispatch("getCategory", this.$route.params.id);
+  },
+  unmounted() {
+    this.$store.dispatch("clearCategory");
+  },
   computed: {
-    ...mapGetters(["getRecentPosts", "getCategories", "getToken"]),
-    posts() {
-      return this.getRecentPosts;
-    },
-    categories() {
-      return this.getCategories;
-    },
-    token() {
-      return this.getToken;
+    ...mapGetters(["getCategory"]),
+    category() {
+      return this.getCategory;
     },
     ROOT_API() {
       return process.env.VUE_APP_ROOT_API;

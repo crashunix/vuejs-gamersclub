@@ -2,7 +2,7 @@ import Api from './Api';
 
 export default {
     hasPost() {
-        return Api.get('categories?posts_contains=3');
+        return Api.get('categories');
     },
     show(id) {
         return Api.get(`categories/${id}`);

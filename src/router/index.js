@@ -5,6 +5,7 @@ import News from '../views/News.vue'
 import Matches from '../views/Matches.vue'
 import Ranking from '../views/Ranking.vue'
 import Post from '../views/Post.vue'
+import Category from '../views/Category.vue'
 import Login from '../views/Login.vue'
 
 const routes = [
@@ -42,6 +43,11 @@ const routes = [
         path: ':id',
         name: 'Post',
         component: Post
+      },
+      {
+        path: '/category/:id',
+        name: 'Category',
+        component: Category
       }
     ],
   },

@@ -9,7 +9,8 @@ export default createStore({
     theme: localStorage.getItem("theme"),
     recentPosts: [],
     post: {},
-    categories: {},
+    categories: [],
+    category: {},
     me: {}
   },
   mutations: {
@@ -25,6 +26,9 @@ export default createStore({
     SET_CATEGORIES: (state, categories) => {
       state.categories = categories;
     },
+    SET_CATEGORY: (state, category) => {
+      state.category = category;
+    },
     SET_USER: (state, user) => {
       state.me = user
     }
@@ -36,6 +40,7 @@ export default createStore({
     getRecentPosts: (state) => state.recentPosts,
     getPost: (state) => state.post,
     getCategories: (state) => state.categories,
+    getCategory: (state) => state.category,
     getToken: (state) => state.me.jwt,
   },
   actions: {
@@ -52,9 +57,17 @@ export default createStore({
     clearPost: ({ commit }) => {
       commit("SET_POST", {});
     },
+    clearCategory: ({ commit }) => {
+      commit("SET_CATEGORY", {});
+    },
     getCategories: ({ commit }) => {
       Category.hasPost().then((response) => {
         commit("SET_CATEGORIES", response.data);
+      });
+    },
+    getCategory: ({ commit }, categoryId) => {
+      Category.show(categoryId).then((response) => {
+        commit("SET_CATEGORY", response.data);
       });
     },
     makeLogin: ({ commit }, credentials) => {
