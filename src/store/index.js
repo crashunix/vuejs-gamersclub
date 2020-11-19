@@ -6,7 +6,7 @@ import Category from "../apis/Category";
 import Auth from "../apis/auth/auth";
 import User from "../apis/auth/user";
 
-const userStorage = JSON.parse(localStorage.getItem('user'));
+const userStorage = JSON.parse(localStorage.getItem("user"));
 
 export default createStore({
   state: {
@@ -16,7 +16,7 @@ export default createStore({
     categories: [],
     category: {},
     loggedIn: userStorage ? true : false,
-    me: null
+    me: null,
   },
   mutations: {
     setTheme: (state, theme) => {
@@ -51,7 +51,7 @@ export default createStore({
     },
     SET_ME: (state, user) => {
       state.me = user;
-    }
+    },
   },
   getters: {
     theme: (state) => {
@@ -62,7 +62,7 @@ export default createStore({
     getCategories: (state) => state.categories,
     getCategory: (state) => state.category,
     getLoggedIn: (state) => state.loggedIn,
-    getMe: (state) => state.me
+    getMe: (state) => state.me,
   },
   actions: {
     getRecentPosts: ({ commit }) => {
@@ -72,6 +72,7 @@ export default createStore({
     },
     getPost: ({ commit }, postId) => {
       Post.show(postId).then((response) => {
+        console.log(response);
         commit("SET_POST", response.data);
       });
     },
@@ -93,37 +94,38 @@ export default createStore({
     },
     login({ commit }, user) {
       return Auth.login(user).then(
-        user => {
-          commit('loginSuccess', user);
+        (user) => {
+          commit("loginSuccess", user);
+          this.$store.dispatch("getMe");
           return Promise.resolve(user);
         },
-        error => {
-          commit('loginFailure');
+        (error) => {
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );
     },
     logout({ commit }) {
       Auth.logout();
-      commit('logout');
+      commit("logout");
     },
     register({ commit }, user) {
       return Auth.register(user).then(
-        response => {
-          commit('registerSuccess');
+        (response) => {
+          commit("registerSuccess");
           return Promise.resolve(response.data);
         },
-        error => {
-          commit('registerFailure');
+        (error) => {
+          commit("registerFailure");
           return Promise.reject(error);
         }
       );
     },
-    getMe({commit}) {
-      return User.getMe().then(response => {
-        commit('SET_ME', response.data);
+    getMe({ commit }) {
+      return User.getMe().then((response) => {
+        commit("SET_ME", response.data);
       });
-    }
+    },
   },
   modules: {},
 });

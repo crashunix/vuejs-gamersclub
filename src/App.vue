@@ -13,11 +13,17 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["theme"]),
+    ...mapGetters(["theme", "getLoggedIn"]),
+    loggedIn() {
+      return this.getLoggedIn;
+    },
   },
   mounted() {
     this.$store.dispatch("getRecentPosts");
     this.$store.dispatch("getCategories");
+    if (this.loggedIn) {
+      this.$store.dispatch("getMe");
+    }
   },
 };
 </script>

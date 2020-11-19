@@ -41,10 +41,13 @@
       </template>
       <div class="header__menu">
         <template v-if="loggedIn">
-          <div
-            @click="profilePopup = !profilePopup"
-            class="bg-gray-400 w-8 h-8 rounded-full"
-          ></div>
+          <div class="flex items-center">
+            {{ me?.username.replace(/ .*/, "") }}
+            <div
+              @click="profilePopup = !profilePopup"
+              class="bg-gray-400 w-8 h-8 rounded-full ml-3"
+            ></div>
+          </div>
         </template>
         <template v-else>
           <button
@@ -70,7 +73,7 @@
           </button>
         </template>
         <div class="menu__container" v-show="profilePopup">
-          <span>Olá, {{ }}</span>
+          <span>Olá, {{ me?.username.replace(/ .*/, "") }}</span>
           <span>Theme</span>
           <select class="menu__switcher" v-model="theme" @change="handleChange">
             <option value="dark-theme">Dark</option>
@@ -129,9 +132,6 @@ export default {
       this.$store.dispatch("logout");
       this.$router.push("/login");
     },
-  },
-  mounted() {
-    this.$store.dispatch("getMe");
   },
 };
 </script>
