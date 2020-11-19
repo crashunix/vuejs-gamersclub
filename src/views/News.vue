@@ -33,9 +33,7 @@
     <section v-for="category in categories" :key="category.id" class="section">
       <div class="flex justify-between">
         <h3 class="section__title">{{ category.name }}</h3>
-        <router-link :to="{ name: 'Category', params: { id: category.id } }"
-          >More</router-link
-        >
+        <router-link :to="{name: 'Category', params: { id: category.id }}">More</router-link>
       </div>
       <div class="section__cards">
         <template v-if="loading(category.posts)">
@@ -67,22 +65,12 @@
 import moment from "moment";
 
 import { mapGetters } from "vuex";
-import gql from 'graphql-tag'
-
 
 export default {
   name: "News",
-  apollo: {
-    // Simple query that will update the 'hello' vue property
-    hello: gql`
-      query {
-        hello
-      }
-    `,
-  },
   data: function () {
     return {
-      valor: 120,
+      valor: 120
     };
   },
   computed: {
@@ -95,7 +83,7 @@ export default {
     },
     ROOT_API() {
       return process.env.VUE_APP_ROOT_API;
-    },
+    }
   },
   methods: {
     formatDate(data) {
